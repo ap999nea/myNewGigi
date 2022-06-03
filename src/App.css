@@ -1,0 +1,30 @@
+.dashboard {
+  display: flex;
+  gap: 16px;
+  width: 100vw;
+  height: 100vh;
+  background-color: #0279bf;
+  padding: 8px;
+}
+
+.bucket {
+  text-align: center;
+  width: 240px;
+  height: 100%;
+  background-color: #ebecf0;
+  padding: 16px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.cards {
+  flex-grow: 1;
+}
+
+.card {
+  background-color: #fff;
+  margin-top: 4px;
+  border-radius: 4px;
+  padding: 8px;
+}
