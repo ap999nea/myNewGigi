@@ -35,22 +35,24 @@ export class Form extends React.Component {
   };
 
   render() {
-    console.log(this.state.submitted)
-    const {submitted,title } =this.state
+    console.log(this.state.submitted);
+    const { submitted, title } = this.state;
     return (
-        <>
-        {!submitted ? 
-            <form onSubmit={this.onSubmitHandler}>
+      <>
+        {!submitted ? (
+          <form onSubmit={this.onSubmitHandler}>
             <InputText
-                name={"title"}
-                id={"title"}
-                 value={title}
-                onChange={this.onChangeHandler}
-                 ></InputText>
-        <Button type={"submit"}>Submit</Button>
-      </form> : <h1>Ci siamo</h1>
-        }
-        </>
+              name={"title"}
+              id={"title"}
+              value={title}
+              onChange={this.onChangeHandler}
+            ></InputText>
+            <Button type={"submit"}>Submit</Button>
+          </form>
+        ) : (
+          <h1>Ci siamo</h1>
+        )}
+      </>
     );
   }
 }

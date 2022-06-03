@@ -8,7 +8,7 @@ class Bucket extends Component {
       <div className="bucket">
         <h2>{this.props.title}</h2>
         <div className="cards">{this.props.children}</div>
-        <Button onClickHandler={()=> console.log("Add Card")}>Add Card</Button>
+        <Button onClickHandler={() => console.log("Add Card")}>Add Card</Button>
       </div>
     );
   }
