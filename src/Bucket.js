@@ -4,6 +4,25 @@ import Popup from "reactjs-popup";
 import Card from "./Card"
 
 class Bucket extends Component {
+  state = {
+    contents: this.props.contents
+  }
+
+  onCreateCardHandler = async (text, e) => {
+    try {
+      e.preventDefault();
+      const {id} = this.props
+      const resp = await httpCreateCard({text, id: id});
+      this.setState({
+        contents: [...this.state.contents, resp.data],
+      })
+      return resp.data;
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+
   render() {
     const {title, contents, id} = this.props
     return (
@@ -20,7 +39,7 @@ class Bucket extends Component {
         }
         </div>
         <Popup trigger={<button> Add Card</button>}>
-        <Form dashboardId={id}/>
+        <Form onSubmitHandler={this.onCreateCardHandler} dashboardId={id}/>
         </Popup>
       </div>
     );

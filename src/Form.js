@@ -14,19 +14,6 @@ export class Form extends React.Component {
     title: "",
   };
 
-  onSubmitHandler = async (e) => {
-    try {
-      e.preventDefault();
-      const {dashboardId} = this.props
-      const resp = await httpCreateCard({text: this.state.title, id: dashboardId});
-      this.setState({
-        submitted: true,
-      });
-      return resp.data;
-    } catch (err) {
-      console.log(err);
-    }
-  };
 
   onChangeHandler = (e) => {
     const { value, name } = e.target;
@@ -38,12 +25,20 @@ export class Form extends React.Component {
     });
   };
 
+  onSubmit = async (e)=>{
+    const { onSubmitHandler } = this.props;
+    await onSubmitHandler(title, e)
+    this.setState({
+      submitted: true,
+    });
+  }
+
   render() {
     const { submitted, title } = this.state;
     return (
       <>
         {!submitted ? (
-          <form className="submit-card" onSubmit={this.onSubmitHandler}>
+          <form className="submit-card" onSubmit={this.onSubmit}>
             <InputText
               name={"title"}
               id={"title"}
