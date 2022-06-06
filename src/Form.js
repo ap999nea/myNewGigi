@@ -2,18 +2,23 @@ import React from "react";
 import { httpCreateCard } from "./api.http";
 import Button from "./Button";
 import InputText from "./InputText";
+import Card from "./Card"
 
 export class Form extends React.Component {
+  constructor(props) {
+    super(props)
+  }
+
   state = {
     submitted: false,
-
     title: "",
   };
 
   onSubmitHandler = async (e) => {
     try {
       e.preventDefault();
-      const resp = await httpCreateCard(this.state.title);
+      const {dashboardId} = this.props
+      const resp = await httpCreateCard({text: this.state.title, id: dashboardId});
       this.setState({
         submitted: true,
       });
@@ -25,7 +30,6 @@ export class Form extends React.Component {
 
   onChangeHandler = (e) => {
     const { value, name } = e.target;
-    //console.log(value);
     this.setState((prev) => {
       return {
         ...prev,
@@ -35,12 +39,11 @@ export class Form extends React.Component {
   };
 
   render() {
-    console.log(this.state.submitted);
     const { submitted, title } = this.state;
     return (
       <>
         {!submitted ? (
-          <form onSubmit={this.onSubmitHandler}>
+          <form className="submit-card" onSubmit={this.onSubmitHandler}>
             <InputText
               name={"title"}
               id={"title"}
@@ -50,9 +53,11 @@ export class Form extends React.Component {
             <Button type={"submit"}>Submit</Button>
           </form>
         ) : (
-          <h1>Ci siamo</h1>
+          <Card bio={title} />
         )}
       </>
     );
   }
 }
+
+export default Form

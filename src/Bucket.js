@@ -1,14 +1,27 @@
 import { Component } from "react";
-import Card from "./Card";
-import Button from "./Button";
+import Form from "./Form"
+import Popup from "reactjs-popup";
+import Card from "./Card"
 
 class Bucket extends Component {
   render() {
+    const {title, contents, id} = this.props
     return (
       <div className="bucket">
-        <h2>{this.props.title}</h2>
-        <div className="cards">{this.props.children}</div>
-        <Button onClickHandler={() => console.log("Add Card")}>Add Card</Button>
+        <div className="title">
+          <h2>{title}</h2>
+        </div>
+        
+        <div className="cards">
+        {
+          contents.map(({id, text}) => {
+            return <Card className="card" key={id}>{text}</Card>
+          })
+        }
+        </div>
+        <Popup trigger={<button> Add Card</button>}>
+        <Form dashboardId={id}/>
+        </Popup>
       </div>
     );
   }

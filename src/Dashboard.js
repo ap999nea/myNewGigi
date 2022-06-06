@@ -1,35 +1,27 @@
 import React from "react";
 import { httpGetDashboards } from "./api.http";
 import Bucket from "./Bucket";
-import Card from "./Card";
-import { Form } from "./Form";
 
 class Dashboard extends React.Component {
-  //   constructor(props) {
-  //     super(props);
-  // }
-  state = { cardName: "Inizio" };
+  state = { cardName: "Inizio", myDashboard : [] };
   componentDidMount() {
     this.setState({
       cardName: "La mia carta",
     });
     this.getMyDashboards();
   }
-  async getMyDashboards() {
-    let myDashboard = {};
+  async getMyDashboards() {  
     try {
-      const resp = await httpGetDashboards();
-      console.log(resp.data);
-      myDashboard = resp.data;
+      const {data: myDashboard} = await httpGetDashboards();
+      this.setState((prev) => {
+      return {
+        ...prev,
+        myDashboard
+      };
+    });
     } catch (err) {
       console.log(err);
     }
-    this.setState((prev) => {
-      return {
-        ...prev,
-        myDashboard: myDashboard,
-      };
-    });
   }
 
   componentDidUpdate() {
@@ -38,21 +30,18 @@ class Dashboard extends React.Component {
   render() {
     console.log("Render");
     const { myDashboard } = this.state;
-    console.log(myDashboard);
-    let appoggio;
-    if (myDashboard) {
-      appoggio = myDashboard.map((el) => {
-        return <Bucket title={el.name}></Bucket>;
-      });
-    } else {
-      appoggio = <h1>Cacca</h1>;
-    }
+    
     return (
-      <>
-        <div style={{ padding: 50 }} className="dashboard">
-          {appoggio}
+      <div style={{ padding: 50 }} className="dashboard">
+          {
+          (myDashboard.length > 0) ? 
+      myDashboard.map(({contents, name, id}) => {
+        return <Bucket contents={contents} title={name} key={id} id={id}></Bucket>;
+      })
+    :
+      <h1>Non ci sono risultati</h1>
+      }
         </div>
-      </>
     );
   }
 }
